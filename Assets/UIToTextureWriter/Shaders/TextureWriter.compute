@@ -1,0 +1,20 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+RWTexture2D<float4> _Dest;
+
+int _X;
+int _Y;
+int _W;
+int _H;
+float4 _Color;
+
+[numthreads(4,4,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+	if ((id.x >= _W) || (id.y >= _H))
+		return;
+	
+	int2 pos = int2(id.x + _X, id.y + _Y);
+	_Dest[pos] = _Color;
+}
